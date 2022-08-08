@@ -32,13 +32,13 @@ class Database extends Config
      */
     public $default = [
         'DSN'      => '',
-        'hostname' => 'localhost',
-        'username' => 'root',
+        'hostname' => '',
+        'username' => '',
         'password' => '',
-        'database' => 'ci4_auth',
-        'DBDriver' => 'MySQLi',
+        'database' => 'database.sqlite',
+        'DBDriver' => 'sqlite3',
         'DBPrefix' => '',
-        'pConnect' => true,
+        'pConnect' => false,
         'DBDebug'  => true,
         'charset'  => 'utf8',
         'DBCollat' => 'utf8_general_ci',

@@ -14,18 +14,41 @@
         <br>
         <h4>登入</h4>
         <hr>
+        
+        <?php 
+          if(!empty(session()->getFlashdata('success'))) {
+            ?>
+              <div class="alert alert-success">
+                <?= session()->getFlashdata('success') ?>
+              </div>
+            <?php 
+          }else if(!empty(session()->getFlashdata('fail'))) {
+            ?>
+              <div class="alert alert-danger">
+                <?= session()->getFlashdata('fail') ?>
+              </div>
+            <?php 
+          }
+        ?>
+
         <form action="<?= base_url('auth/loginUser') ?>" method="post">
           <?= csrf_field(); ?>
           <div class="form-group">
             <label for="email">Email</label>
             <input type="text" class="form-control" name="email" id="email" placeholder="Email">
             <span class="text-danger text-sm">
+              <span class="text-danger text-sm">
+                <?= isset($validation) ? display_form_error($validation, 'email','email'):''; ?>
+              </span>
             </span>
           </div>
           <br>
           <div class="form-group">
             <label for="password">密碼</label>
             <input type="password" class="form-control" name="password" id="password" placeholder="請輸入密碼">
+            <span class="text-danger text-sm">
+              <?= isset($validation) ? display_form_error($validation, 'password','密碼'):''; ?>
+            </span>
           </div>
           <br>
           <button type="submit" class="btn btn-primary">登入</button>

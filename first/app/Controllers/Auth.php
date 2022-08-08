@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Libraries\Hash;
+use App\Models\UserModel;
 
 class Auth extends BaseController
 {
@@ -43,7 +44,7 @@ class Auth extends BaseController
         //     'confirm_password' => 'required|min_length[8]|max_length[255]|matches[password]',
         // ]);
 
-        $validated_username = $this->validate([
+        $validated = $this->validate([
             'username' => [
                 'rules' => 'required|min_length[3]|max_length[20]|is_unique[users.username]',
                 'errors' => [
@@ -53,8 +54,6 @@ class Auth extends BaseController
                     'is_unique' => '名字已被使用',
                 ],
             ],
-        ]);
-        $validated_email = $this->validate([
             'email' => [
                 'rules' => 'required|valid_email|is_unique[users.email]',
                 'errors' => [
@@ -63,8 +62,6 @@ class Auth extends BaseController
                     'is_unique' => 'Email已被使用',
                 ],
             ],
-        ]);
-        $validated_password = $this->validate([
             'password' => [
                 'rules' => 'required|min_length[8]|max_length[255]',
                 'errors' => [
@@ -73,8 +70,6 @@ class Auth extends BaseController
                     'max_length' => '密碼不能超過255個字',
                 ],
             ],
-        ]);
-        $validated_confirm_password = $this->validate([
             'confirm_password' => [
                 'rules' => 'required|min_length[8]|max_length[255]|matches[password]',
                 'errors' => [
@@ -86,12 +81,18 @@ class Auth extends BaseController
             ],
         ]);
 
+
         // echo $validated==true?'true':'false';
 
         // if validation fails, show error message
-        if (!$validated_username||!$validated_email||!$validated_password||!$validated_confirm_password) {
+
+// print_r($this->validator,true);
+
+        if (!$validated) {
             return view('auth/register', ['validation' => $this->validator]);
-        }
+        }else{}
+
+
 
         // here we can save user data to database
         $username = $this->request->getPost('username');
@@ -100,7 +101,7 @@ class Auth extends BaseController
         $confirm_password = $this->request->getPost('confirm_password');
 
         $data = [
-            'username' => $name,
+            'username' => $username,
             'email' => $email,
             'password' => Hash::encrypt($password),
         ];
@@ -111,12 +112,69 @@ class Auth extends BaseController
 
         if(!$query) {
             // return view('auth/register', ['validation' => $this->validator]);
-            return redirect()->back()->with('fails', '註冊失敗');
+            return redirect()->back()->with('fail', '註冊失敗');
         } else {
             // redirect to login page
             // return redirect()->to(site_url('auth/login'));
             // return redirect()->to(site_url('auth/login'))->with('success', '註冊成功');
             return redirect()->back()->with('success', '註冊成功');
+        }
+    }
+
+
+
+
+    // login user
+    public function loginUser()
+    {
+        //Validate user input
+        $validated = $this->validate([
+            'email' => [
+                'rules' => 'required|valid_email',
+                'errors' => [
+                    'required' => 'Email必填',
+                    'valid_email' => 'Email格式不正確',
+                    // 'is_unique' => 'Email已被使用',
+                ],
+            ],
+            'password' => [
+                'rules' => 'required|min_length[8]|max_length[255]',
+                'errors' => [
+                    'required' => '密碼必填',
+                    'min_length' => '密碼至少8個字',
+                    'max_length' => '密碼不能超過255個字',
+                ],
+            ],
+        ]);
+        // if validation fails, show error message
+        if (!$validated) {
+            return view('auth/login', ['validation' => $this->validator]);
+        }else{
+            // Check user details in database
+
+            // here we can login user
+            $email = $this->request->getPost('email');
+            $password = $this->request->getPost('password');
+            $userModel = new \App\Models\UserModel();
+            $userInfo = $userModel->where('email', $email)->first();
+            
+            // if (!$userInfo) {
+            //     // session()->setFlashdata('fail', '帳號或密碼錯誤');
+            //     return redirect()->to(site_url('auth'))->with('fail', '帳號或密碼錯誤');
+            // }
+            // if (!Hash::check($password, $userInfo['password'])) {
+            //     // session()->setFlashdata('fail', '帳號或密碼錯誤');
+            //     return redirect()->to(site_url('auth'))->with('fail', '帳號或密碼錯誤');
+            // }
+            if (!$userInfo||!Hash::check($password, $userInfo['password'])) {
+                return redirect()->to(site_url('auth'))->with('fail', '帳號或密碼錯誤');
+            }
+
+            $userId = $userInfo['id'];
+            // set user data to session
+            session()->set('user', $userId);
+            // redirect to home page
+            return redirect()->to(site_url('dashboard'));
         }
     }
 }

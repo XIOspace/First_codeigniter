@@ -40,6 +40,7 @@ $routes->get('/auth', 'Auth::index');
 $routes->get('/auth/register', 'Auth::register');
 $routes->get('/helloworld', 'Helloworld::index');
 $routes->post('/auth/registerUser', 'Auth::registerUser');
+$routes->post('/auth/loginUser', 'Auth::loginUser');
 
 /*
  * --------------------------------------------------------------------
