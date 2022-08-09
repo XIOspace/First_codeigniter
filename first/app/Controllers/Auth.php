@@ -234,10 +234,17 @@ class Auth extends BaseController
       {
           if(session()->has('user'))
           {
-              session()->destroy('user');
+              session()->remove('user');
+            // echo session();
+          }else{
+            // echo 'empty';
           }
 
-          return redirect()->to('/auth?access=loggedout')->with('fail',
-          '您已登出');
+            // session_destroy();
+            // session()->destroy('ci_session');
+            // setcookie('ci_session', null, -1, '/');
+            // session()->unset_userdata('user');
+
+        // return redirect()->to('/auth?access=loggedout')->with('fail','您已登出');
       }
 }

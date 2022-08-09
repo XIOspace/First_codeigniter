@@ -51,7 +51,7 @@ $routes->get('/auth/logout', 'Auth::logout');
 
 
 // Logout in user routes
-$routes->group('',['filter'=>'filter'],function($routes) {
+$routes->group('',['filter'=>'AuthCheck'],function($routes) {
     $routes->get('/dashboard', 'Dashboard::index');
 });
 
