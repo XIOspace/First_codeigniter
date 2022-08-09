@@ -177,4 +177,67 @@ class Auth extends BaseController
             return redirect()->to(site_url('dashboard'));
         }
     }
+
+
+
+
+
+
+
+    // upload image
+    public function uploadImage()
+    {
+        // try {
+            $loggedInUserId = session()->get('user');
+            $config['upload_path'] = getcwd().'/images';
+            $imageName = $this->request->getFile('userImage')->getName();
+
+            // If directory not present, create directory
+            if (!is_dir($config['upload_path'])) {
+                mkdir($config['upload_path'], 0777);
+            }
+
+            // Get image
+            $image = $this->request->getFile('userImage');
+
+            if (!$image->hasMoved() && $loggedInUserId) {
+                $image->move($config['upload_path'], $imageName);
+
+                $data = [
+                    'avatar' => $imageName,
+                ];
+                $userModel = new UserModel();
+                $userModel->update($loggedInUserId,$data);
+
+                return redirect()->to('dashboard')->with('success', '上傳成功');
+            }else{
+                return redirect()->to('dashboard')->with('fail', '上傳失敗');
+            }
+        // } catch(Exception $e) {
+        //     echo $e->getMessage();
+        // }
+    }
+
+
+
+    // logout user
+    // public function logout()
+    // {
+    //     if(session()->has('user')){
+    //         session()->remove('user');
+    //         // session()->destroy();
+    //     }
+    //     return view('auth')->with('fail', '您已登出');
+    // }
+
+    public function logout()
+      {
+          if(session()->has('user'))
+          {
+              session()->destroy('user');
+          }
+
+          return redirect()->to('/auth?access=loggedout')->with('fail',
+          '您已登出');
+      }
 }

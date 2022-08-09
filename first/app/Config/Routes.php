@@ -41,6 +41,22 @@ $routes->get('/auth/register', 'Auth::register');
 $routes->get('/helloworld', 'Helloworld::index');
 $routes->post('/auth/registerUser', 'Auth::registerUser');
 $routes->post('/auth/loginUser', 'Auth::loginUser');
+$routes->get('/dashboard', 'Dashboard::index');
+$routes->post('/auth/uploadImage', 'Auth::uploadImage');
+// $routes->post('/auth/logout', 'Auth::logout');
+$routes->get('/auth/logout', 'Auth::logout');
+
+
+
+
+
+// Logout in user routes
+$routes->group('',['filter'=>'filter'],function($routes) {
+    $routes->get('/dashboard', 'Dashboard::index');
+});
+
+
+
 
 /*
  * --------------------------------------------------------------------
