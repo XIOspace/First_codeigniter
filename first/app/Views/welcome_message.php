@@ -292,7 +292,7 @@
 
     <div class="copyrights">
 
-        <p>&copy; <?= date('Y') ?> Powered by <a href="https://xiocode.com" target="_blank" style="text-decoration:none;color:white"> https://xiocode.com </a>.<a href="" target="_blank" style="text-decoration:none;color:white"> GitHub原始碼 </a></p>
+        <p>&copy; <?= date('Y') ?> Powered by <a href="https://xiocode.com" target="_blank" style="text-decoration:none;color:white"> https://xiocode.com </a>.<a href="https://l.facebook.com/l.php?u=https%3A%2F%2Fgithub.com%2FXIOspace%2FFirst_codeigniter%3Ffbclid%3DIwAR27yQhUh17NBbtbNlOADQATInyAe4znaoxdbaAcumZ56kma5Ll7wy-Jo5s&h=AT3cUldytYYVuWSjGsGLLJK_iv1OAErvDE5pT4RJVQRshnL0YvroMFfYuq1vKfXdfHOy_AArhmT2gWQRy1Att5s1oTOrqd8uTQbEqh6UUJ4KM1qLGOJ0rO-zlo8NRGJxtBBvryqM2qw8S2cnC-Iw33qzVnc" target="_blank" style="text-decoration:none;color:white"> GitHub原始碼 </a></p>
 
     </div>
 
