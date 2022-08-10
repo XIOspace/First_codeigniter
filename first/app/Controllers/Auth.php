@@ -173,6 +173,8 @@ class Auth extends BaseController
             $userId = $userInfo['id'];
             // set user data to session
             session()->set('user', $userId);
+            // print_r(session()->get('user'));
+            // exit;
             // redirect to home page
             return redirect()->to(site_url('dashboard'));
         }
@@ -234,10 +236,11 @@ class Auth extends BaseController
       {
           if(session()->has('user'))
           {
-              session()->remove('user');
-            // echo session();
+            session()->remove('user');
+            print_r(session()->get('user'));
+            // echo($_SESSION);
           }else{
-            // echo 'empty';
+            echo 'empty';
           }
 
             // session_destroy();
@@ -245,6 +248,6 @@ class Auth extends BaseController
             // setcookie('ci_session', null, -1, '/');
             // session()->unset_userdata('user');
 
-        // return redirect()->to('/auth?access=loggedout')->with('fail','您已登出');
+        return redirect()->to('/auth?access=loggedout')->with('fail','您已登出');
       }
 }

@@ -10,6 +10,11 @@ class Dashboard extends BaseController
     public function index()
     {
         //
+        if(!session()->get('user')) {
+            echo 'Not logged in';
+            exit;
+        }
+        
         $userModel = new UserModel();
         $loggedInUserId = session()->get('loggedInUser');
         $userInfo = $userModel->find($loggedInUserId);
